@@ -1,0 +1,50 @@
+doctype html
+html(dir = "rtl" lang= "he") 
+  head
+    title מנהל הסטודנטים
+    meta(charset='utf-8')
+    style
+      include ../public/style.css
+  body
+    div.div1
+      h1 מערכת לניהול סטודנטים
+      form(method = "post" action = "/student" )
+        label(for="toar") בחר תואר : 
+          select(id="toar" name="toar" selected="")
+            option(value="all") הכל
+            option(value="BA" selected=toar_type['BA']) תואר ראשון
+            option(value="MA" selected=toar_type['MA']) תואר שני
+            option(value="PHD" selected=toar_type['PHD']) תואר שלישי
+        br
+        br
+        label(for="city") עיר:
+          input(type="text" id="city" name="city" value=city)
+        br
+        br
+        label(for="min_avg") ממוצע מינימלי: 
+          input(type="number" id="min_avg" name="min_avg" min="0" max="100" value=min_avg)
+        br
+        br
+        button(type="submit") סנן תוצאות
+      hr
+      h3 תוצאות: 
+      table
+        tr 
+          th שם הסטודנט/ית 
+          th ת.ז
+          th
+          tr    
+            each student in students
+              td #{student.name}
+              td #{student.id}
+              td 
+                form(method="post" action="student/delete/"+ student.id onsubmit="return confirm('האם למחוק את הסטודנט?')")
+                  button(type="submit") מחק
+              td
+                form(method="get" action="student/update/"+ student.id)
+                  button(type="submit") עדכן
+                  tr
+      hr
+      a(href='/student/add') הוסף סטודנט/ית חדש
+      
+
